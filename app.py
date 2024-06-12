@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
 import os
 import fitz  # PyMuPDF
@@ -31,16 +31,16 @@ def extract_text_from_docx(docx_path):
 
 @app.route('/')
 def upload_form():
-    return render_template('upload.html')
+    return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return render_template('upload.html', error="No file part")
+        return render_template('index.html', error="No file part")
 
     file = request.files['file']
     if file.filename == '':
-        return render_template('upload.html', error="No selected file")
+        return render_template('index.html', error="No selected file")
 
     if file:
         filename = secure_filename(file.filename)
@@ -52,10 +52,10 @@ def upload_file():
         elif filename.endswith('.docx'):
             text = extract_text_from_docx(file_path)
         else:
-            return render_template('upload.html', error="Unsupported file type")
+            return render_template('index.html', error="Unsupported file type")
 
         summary = summarizer(text, max_length=150, min_length=30, do_sample=False)
-        return render_template('upload.html', summary=summary[0]['summary_text'])
+        return render_template('index.html', summary=summary[0]['summary_text'])
 
 if __name__ == '__main__':
     app.run(debug=True)

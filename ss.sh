@@ -1,2 +1,2 @@
-pip install flask python-docx PyMuPDF transformers torch
+pip install -r requirements.txt
 python app.py
