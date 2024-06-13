@@ -22,6 +22,8 @@ def extract_text_from_pdf(pdf_path):
         text += page.get_text()
     return text
 
+# this code is code
+
 def extract_text_from_docx(docx_path):
     doc = docx.Document(docx_path)
     text = ""
